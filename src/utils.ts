@@ -1,7 +1,7 @@
 // @ts-ignore
-const { ethereum } = window;
+const {ethereum} = window;
 // @ts-ignore
-const { ethers } = window;
+const {ethers} = window;
 
 const CREATEGAME_EVENT = "CreateGame_Event";
 const COMPLETEGAME_EVENT = "CompleteGame_Event";
@@ -18,11 +18,13 @@ export const ethRequest = async (args: { method: any; params?: any[] | { chainId
 };
 
 export async function connectWallet() {
-  return await ethRequest({ method: "eth_requestAccounts" });
+  return await ethRequest({method: "eth_requestAccounts"});
 }
+
 export async function getAccounts() {
-  return await ethRequest({ method: "eth_accounts" });
+  return await ethRequest({method: "eth_accounts"});
 }
+
 export async function getBalance(account: any | { chainId: string; }) {
   const balance = await ethRequest({
     method: "eth_getBalance",
@@ -30,20 +32,21 @@ export async function getBalance(account: any | { chainId: string; }) {
   });
   return ethers.utils.formatEther(balance);
 }
+
 export async function getChainId() {
-  const chainId = await ethRequest({ method: "eth_chainId" });
+  const chainId = await ethRequest({method: "eth_chainId"});
   return parseInt(chainId);
 }
 
 export async function switchNetwork(chainId: any) {
   return await ethRequest({
     method: "wallet_switchEthereumChain",
-    params: [{ chainId: toHex(chainId) }],
+    params: [{chainId: toHex(chainId)}],
   });
 }
 
 // @ts-ignore
-export async function addToNetwork({ address, chain, rpc }) {
+export async function addToNetwork({address, chain, rpc}) {
   if (!address) {
     await connectWallet();
   }
@@ -81,7 +84,7 @@ export const shortenAddress = (address: string) => {
 };
 
 const formatGame = (game: { id: any; gameType: any; wager: any; gamblers: any; }) => {
-  const { id, gameType, wager, gamblers } = game;
+  const {id, gameType, wager, gamblers} = game;
 
   return {
     id: id.toString(),
@@ -98,10 +101,11 @@ export class Casino {
   #contract;
   #signedContract;
   #provider;
+
   constructor(chain: any) {
     if (!chain) throw new Error("Chain is required!");
     this.#chain = chain;
-    const { address, abi } = this.#chain.contracts.Casino;
+    const {address, abi} = this.#chain.contracts.Casino;
     this.#provider = new ethers.providers.Web3Provider(ethereum);
     this.#contract = new ethers.Contract(address, abi, this.#provider);
     const signer = this.#provider.getSigner();
@@ -111,43 +115,58 @@ export class Casino {
   on(event: any, callback: any) {
     this.#contract.on(event, callback);
   }
+
   off(event: any, callback: any) {
     this.#contract.off(event, callback);
   }
 
-  async getGames() {
-    const games = await this.#contract.getGames();
-    return games.map(formatGame);
+  async bankrollGetBalance() {
+    try {
+      const balanceBigNumber = await this.#contract.bankrollGetBalance();
+      return balanceBigNumber.toString();
+    } catch (e) {
+      console.error("[API] bankrollGetBalance", e)
+      return 0;
+    }
   }
-  async getGame(gameId: any) {
-    const game = await this.#contract.getGame(gameId);
-    return formatGame(game);
+
+  async bankrollDeposit(amount: any) {
+    try {
+      await this.#contract.bankrollDeposit({
+        value: ethers.utils.parseEther(amount.toString()),
+      });
+    } catch (e) {
+      console.error("[API] bankrollDeposit", e)
+      return;
+    }
   }
-  async createGame(amount: { toString: () => any; }, gameType: any, bet: any) {
-    const response = await this.#signedContract.playGameWithDefaultHost(gameType, bet, {
-      value: ethers.utils.parseEther(amount.toString()),
-    });
-    const receipt = await response.wait();
-    const { events } = receipt;
 
-    const createGameEvent = events.find((e: { event: string; }) => e.event === CREATEGAME_EVENT);
-
-    return formatGame(createGameEvent.args.game);
+  async bankrollWithdraw() {
+    try {
+      await this.#contract.bankrollWithdraw();
+    } catch (e) {
+      console.error("[API] bankrollWithdraw", e)
+      return;
+    }
   }
-  async playGame(amount: { toString: () => any; }, gameId: any, bet: any) {
-    const response = await this.#signedContract.playGame(gameId, bet, {
-      value: ethers.utils.parseEther(amount.toString()),
-    });
 
-    return await response.wait();
-  }
-  parseWinnerFromEvent(receipt: { events: any; }) {
-    const { events } = receipt;
-
-    const completeGameEvent = events.find(
-      (e: { event: string; }) => e.event === COMPLETEGAME_EVENT
-    );
-
-    return completeGameEvent.args.winner;
+  async bankrollTransactionRecords() {
+    try {
+      const records = await this.#contract.bankrollGetTransactionRecords();
+      console.log('result', records);
+      const result = records.map((record: { from: any; to: any; recordType: { toString: () => any; }; value: { toString: () => any; }; }) => {
+        return {
+          from: record.from,
+          to: record.to,
+          type: record.recordType.toString(),
+          value: record.value.toString(),
+        }
+      });
+      return result;
+      // return balanceBigNumber.toString();
+    } catch (e) {
+      console.error("[API] bankrollTransactionRecords", e)
+      return [];
+    }
   }
 }

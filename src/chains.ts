@@ -79,7 +79,7 @@ export const chains = {
     nativeMinScale: 0.01,
     contracts: {
       Casino: {
-        address: "0x1e4f2520471D2CED4FbADf2E7309e432741FE9c0",
+        address: "0x493bD63355545Bc8C73B6b0972E18DC9aD5b23f6",
         abi: CASINO.abi,
       },
     },

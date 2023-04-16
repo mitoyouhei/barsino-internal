@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
+import {Outlet} from "react-router-dom";
 import Topbar from "./Topbar";
 import {WalletContext} from "../contexts/WalletContext";
-import {Outlet} from "react-router-dom";
 
 const Layout = React.memo(() => {
   const { chain } = useContext(WalletContext);
@@ -14,7 +14,7 @@ const Layout = React.memo(() => {
         <div className="row">
           <div className="col-2">
             {/*<GameList />*/}
-            <div> "Contract List" </div>
+            <div> Contract List </div>
           </div>
           <div className="col-10">
             <div className="App container">
