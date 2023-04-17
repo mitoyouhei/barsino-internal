@@ -83,6 +83,13 @@ export const shortenAddress = (address: string) => {
   return begin + "•••" + end;
 };
 
+const bankRollRecordTypeTextMap = {
+  '1': 'game income',
+  '2': 'game payout',
+  '3': 'owner withdraw',
+  '4': 'owner deposit',
+}
+
 const formatGame = (game: { id: any; gameType: any; wager: any; gamblers: any; }) => {
   const {id, gameType, wager, gamblers} = game;
 
@@ -158,7 +165,8 @@ export class Casino {
         return {
           from: record.from,
           to: record.to,
-          type: record.recordType.toString(),
+          // @ts-ignore
+          type: bankRollRecordTypeTextMap[record.recordType.toString()],
           value: record.value.toString(),
         }
       });

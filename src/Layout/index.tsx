@@ -10,6 +10,7 @@ const Layout = React.memo(() => {
     <>
       <Topbar/>
       {/* @ts-ignore */}
+
       <div className="container-fluid mt-3" key={chain?.info?.chainId}>
         <div className="row">
           <div className="col-2">

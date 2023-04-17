@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useCallback, useContext, useEffect, useState} from "react";
 
 import {WalletContext} from "../contexts/WalletContext";
 import "./index.css";
@@ -8,7 +8,7 @@ const LOTTERY_DEFAULT_STATE = {balance: 0, records: []};
 const Lottery = React.memo(() => {
   const {casino} = useContext(WalletContext);
   const [data, setData] = useState(LOTTERY_DEFAULT_STATE);
-
+  const [deposit, setDeposit] = useState(0)
   useEffect(() => {
     let didCancel = false;
     if (!casino) {
@@ -38,10 +38,39 @@ const Lottery = React.memo(() => {
     }
   }, [casino]);
 
+  const onWithdrawBalance = useCallback(async () => {
+    // @ts-ignore
+    await casino.bankrollWithdraw();
+  }, [casino]);
+
   return (
     <div>
-      <div>{`Balance: ${data.balance}`}</div>
-      <table className="table">
+      <div className={"withdraw"}>
+        <span className={"g-col-4"}>{`Balance Left: ${data.balance}`}</span>
+        <button
+          className="btn btn-primary" type="button" id="button-addon2"
+          onClick={onWithdrawBalance}
+        >
+          Withdraw
+        </button>
+      </div>
+      <div className="input-group input-group-lg deposit">
+        <span className="input-group-text" id="inputGroup-sizing-lg">ETH</span>
+        <input
+          type="number"
+          className="form-control"
+          aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-lg"
+          value={deposit}
+          /* @ts-ignore */
+          onChange={e => setDeposit(e.target.value)}
+        />
+        <button className="btn btn-primary" type="button" id="button-addon2">
+          Deposit
+        </button>
+      </div>
+      <h2>Detail</h2>
+      <table className="table table-striped">
         <thead>
         <tr>
           <th scope="col">#</th>
@@ -56,7 +85,7 @@ const Lottery = React.memo(() => {
           /* @ts-ignore */
           data.records.map((record: any, index: number) => {
             return (
-              <tr>
+              <tr key={index}>
                 <th scope="row">{index}</th>
                 <td>{record.from}</td>
                 <td>{record.to}</td>
