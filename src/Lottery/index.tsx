@@ -43,6 +43,14 @@ const Lottery = React.memo(() => {
     await casino.bankrollWithdraw();
   }, [casino]);
 
+  const onDeposit = useCallback(async () => {
+    if(deposit < 0.5) {
+      return;
+    }
+    // @ts-ignore
+    await casino.bankrollDeposit(deposit);
+  }, [casino, deposit]);
+
   return (
     <div>
       <div className={"withdraw"}>
@@ -63,9 +71,15 @@ const Lottery = React.memo(() => {
           aria-describedby="inputGroup-sizing-lg"
           value={deposit}
           /* @ts-ignore */
-          onChange={e => setDeposit(e.target.value)}
+          onChange={e => {
+            setDeposit(parseInt(e.target.value))
+          }
+          }
         />
-        <button className="btn btn-primary" type="button" id="button-addon2">
+        <button
+          className="btn btn-primary" type="button" id="button-addon2"
+          onClick={onDeposit}
+        >
           Deposit
         </button>
       </div>

@@ -139,7 +139,7 @@ export class Casino {
 
   async bankrollDeposit(amount: any) {
     try {
-      await this.#contract.bankrollDeposit({
+      await this.#signedContract.bankrollDeposit({
         value: ethers.utils.parseEther(amount.toString()),
       });
     } catch (e) {
@@ -150,7 +150,7 @@ export class Casino {
 
   async bankrollWithdraw() {
     try {
-      await this.#contract.bankrollWithdraw();
+      await this.#signedContract.bankrollWithdraw();
     } catch (e) {
       console.error("[API] bankrollWithdraw", e)
       return;
