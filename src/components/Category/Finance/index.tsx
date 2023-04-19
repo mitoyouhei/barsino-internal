@@ -62,7 +62,7 @@ const Finance = React.memo(() => {
       await connectWallet();
     }
     // @ts-ignore
-    await casino.bankrollDeposit(deposit);
+    await casino.bankrollDeposit(deposit.toString());
   }, [casino, deposit, user]);
 
 
