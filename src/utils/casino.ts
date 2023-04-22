@@ -1,15 +1,9 @@
-import { ethers, utils } from "ethers";
-import { ChainConfig, chains } from "./chains";
-import { Casino__factory, Casino as CasinoContract } from "./contracts";
-import { DisplayInfoStructOutput } from "./contracts/Casino";
-import {formatEther} from "@ethersproject/units/src.ts";
+import {ethers, utils} from "ethers";
+import {ChainConfig, chains} from "./chains";
+import {Casino as CasinoContract, Casino__factory} from "./contracts";
+import {DisplayInfoStructOutput} from "./contracts/Casino";
 
 const { ethereum } = window;
-
-export enum ManagementCategory {
-  finance,
-  games,
-}
 
 enum CasinoEvent {
   CompleteGame_Event = "CompleteGame_Event",

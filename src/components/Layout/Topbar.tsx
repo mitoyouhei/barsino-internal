@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import {Link, matchPath} from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { useAppSelector } from "../../hooks";
@@ -6,12 +6,12 @@ import { selectUser } from "../../store/slices/user";
 import { connectWallet } from "../../utils/wallet";
 import { Address } from "./Address";
 import { selectChain } from "../../store/slices/chain";
-import {GameType, getGameNameKey, ManagementCategory} from "../../utils/casino";
 import { CategoryIcon } from "../share/CategoryIcon";
 import {CategoryType} from "../../types";
 
 export function Topbar() {
-  const { gameType: gameTypeKey } = useParams();
+  const match = matchPath({path: "play/:categoryKey"}, window.location.pathname);
+  const categoryKey = match?.params.categoryKey;
 
   const { t } = useTranslation();
   const user = useAppSelector(selectUser);
@@ -62,18 +62,18 @@ export function Topbar() {
           <div className="navbar-nav">
             <Link
               className={`nav-link ${
-                gameTypeKey === ManagementCategory[ManagementCategory.finance] ? "active" : ""
+                categoryKey === CategoryType[CategoryType.finance] ? "active" : ""
               }`}
-              to={`/play/${ManagementCategory[ManagementCategory.finance]}`}
+              to={`/play/${CategoryType[CategoryType.finance]}`}
             >
               <CategoryIcon category={CategoryType.finance} />
               <span className="ms-1">资金</span>
             </Link>
             <Link
               className={`nav-link ${
-                gameTypeKey === ManagementCategory[ManagementCategory.games] ? "active" : ""
+                categoryKey === CategoryType[CategoryType.gameStats] ? "active" : ""
               }`}
-              to={`/play/${ManagementCategory[ManagementCategory.games]}`}
+              to={`/play/${CategoryType[CategoryType.gameStats]}`}
             >
               <CategoryIcon category={CategoryType.gameStats} />
               <span className="ms-1">游戏统计</span>
@@ -81,20 +81,7 @@ export function Topbar() {
           </div>
         </div>
         <div className="d-flex flex-row">
-          {/* {Object.keys(langs).map((lang) => (
-            <span className="navbar-text me-3" key={lang}>
-              <button
-                type="button"
-                className="btn btn-primary button"
-                onClick={changeLanguage.bind(null, lang)}
-              >
-                {langs[lang].displayName}
-              </button>
-            </span>
-          ))} */}
-
           {accountInfo}
-
           {supportChain ? (
             <>
               <span className="navbar-brand me-2 pt-1">
