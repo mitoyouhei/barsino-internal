@@ -19,7 +19,7 @@ export const GamePanel = React.memo((props: IGamePanel) => {
 
   return (
     <div className="mx-5 w-50 d-flex flex-column align-items-start justify-content-start">
-      <span className="m-1 text-center">{text}</span>
+      <h5 className="m-1 text-center">{text}</h5>
       <span className="m-1 "> {data.length} round</span>
       <span className="m-1 "> {`${total.toFixed(3)} ${currency}`}</span>
     </div>
