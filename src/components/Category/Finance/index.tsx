@@ -70,7 +70,7 @@ const Finance = React.memo(() => {
   return (
     <>
       <div className="offset-2">
-        <div className="card shadow">
+        <div className="mt-5 card shadow">
           <div className="card-body p-0">
             <div className="row">
               <div className="col-6 border-end ">

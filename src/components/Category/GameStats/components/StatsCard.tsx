@@ -44,7 +44,7 @@ export const StatsCard = React.memo((props: IStatsCard) => {
         <div className="d-flex flex-column justify-content-center align-items-center">
           <h5 className="m-3"> {data.length} round</h5>
           <h5 className="m-3"> {`${total.toFixed(3)} ${currency}`}</h5>
-          <div className="d-flex justify-content-center w-100">
+          <div className="d-flex justify-content-center w-100 mb-3">
             <GamePanel text={'Coin Flip'} data={coinFlips} />
             <GamePanel text={'Rock Paper Scissors'} data={rps}/>
           </div>

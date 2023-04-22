@@ -30,7 +30,7 @@ const GameStats = React.memo(() => {
   }, [casino]);
 
   return (
-    <div className="d-flex">
+    <div className="mt-5 d-flex">
       <StatsCard
         text={'WIN'}
         data={data.winGames}
