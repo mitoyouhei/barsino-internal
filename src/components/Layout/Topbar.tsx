@@ -7,7 +7,8 @@ import { connectWallet } from "../../utils/wallet";
 import { Address } from "./Address";
 import { selectChain } from "../../store/slices/chain";
 import {GameType, getGameNameKey, ManagementCategory} from "../../utils/casino";
-import { GameIcon } from "../share/GameIcon";
+import { CategoryIcon } from "../share/CategoryIcon";
+import {CategoryType} from "../../types";
 
 export function Topbar() {
   const { gameType: gameTypeKey } = useParams();
@@ -65,7 +66,7 @@ export function Topbar() {
               }`}
               to={`/play/${ManagementCategory[ManagementCategory.finance]}`}
             >
-              <GameIcon gameType={GameType.dice} />
+              <CategoryIcon category={CategoryType.finance} />
               <span className="ms-1">资金</span>
             </Link>
             <Link
@@ -74,7 +75,7 @@ export function Topbar() {
               }`}
               to={`/play/${ManagementCategory[ManagementCategory.games]}`}
             >
-              <GameIcon gameType={GameType.rps} />
+              <CategoryIcon category={CategoryType.gameStats} />
               <span className="ms-1">游戏统计</span>
             </Link>
           </div>

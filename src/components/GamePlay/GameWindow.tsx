@@ -3,7 +3,7 @@ import { FormEvent, useState } from "react";
 import { GameResult, GameType, getGameChioce } from "../../utils/casino";
 import { useTranslation } from "react-i18next";
 import { GamePlayState, GamePlayStatus } from ".";
-import { GameIcon } from "../share/GameIcon";
+// import { CategoryIcon } from "../share/CategoryIcon";
 
 export interface GamePlayData {
   wager: string;
@@ -79,7 +79,7 @@ export const GameWindow = ({
       <div className="d-flex justify-content-center">
         <h1 className="display-1">
           {/* {title} */}
-          <GameIcon gameType={gameType} />
+          {/*<CategoryIcon gameType={gameType} />*/}
         </h1>
       </div>
       <div className="d-flex justify-content-evenly p-3">
@@ -112,7 +112,7 @@ export const GameWindow = ({
       <div className="card-header">
         <div className="d-flex justify-content-between">
           <div>
-            <GameIcon gameType={gameType} />
+            {/*<CategoryIcon gameType={gameType} />*/}
             <span className="ms-1">{title}</span>
           </div>
           <div className="text-primary">{resultMessage}</div>
