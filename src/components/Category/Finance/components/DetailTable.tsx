@@ -1,6 +1,7 @@
 import {IBankrollRecord} from "../../../../types";
 import React from "react";
 import {useTranslation} from "react-i18next";
+import {useCurrency} from "../../../../hooks/useCurrency";
 
 interface IDetailTable {
   data: IBankrollRecord[];
@@ -9,6 +10,7 @@ interface IDetailTable {
 export const DetailTable = React.memo((props: IDetailTable) => {
   const {data} = props;
   const {t} = useTranslation();
+  const currency = useCurrency();
 
   return (
     <>
@@ -22,7 +24,7 @@ export const DetailTable = React.memo((props: IDetailTable) => {
           <th scope="col">{t("category.finance.detail.from")}</th>
           <th scope="col">{t("category.finance.detail.to")}</th>
           <th scope="col">{t("category.finance.detail.type")}</th>
-          <th scope="col">{t("category.finance.detail.value")}</th>
+          <th scope="col">{`${t("category.finance.detail.value")} (${currency})`}</th>
         </tr>
         </thead>
         <tbody>

@@ -1,4 +1,4 @@
-import {ethers, utils} from "ethers";
+import {BigNumberish, ethers, utils} from "ethers";
 import {ChainConfig, chains} from "./chains";
 import {Casino as CasinoContract, Casino__factory} from "./contracts";
 import {DisplayInfoStructOutput} from "./contracts/Casino";
@@ -213,13 +213,13 @@ class Casino {
 
   async bankrollTransactionRecords(): Promise<IBankrollRecord[]> {
     const records = await this.signedContract.bankrollGetTransactionRecords();
-    const result = records.map((record: { from: any; to: any; recordType: { toString: () => any; }; value: { toString: () => any; }; }) => {
+    const result = records.map((record: { from: any; to: any; recordType: { toString: () => any; }; value: BigNumberish; }) => {
       return {
         from: record.from,
         to: record.to,
         // @ts-ignore
         type: bankRollRecordTypeTextMap[record.recordType.toString()],
-        value: record.value.toString(),
+        value: utils.formatEther(record.value),
       }
     });
     return result;
