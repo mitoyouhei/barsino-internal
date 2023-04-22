@@ -46,5 +46,22 @@
         "scissors": "Scissors"
       }
     }
+  },
+  "category": {
+    "finance": {
+      "name": "Finance",
+      "withdraw": "Withdraw",
+      "deposit": "Deposit",
+      "detail": {
+        "title": "Detail",
+        "from": "from",
+        "to": "to",
+        "type": "type",
+        "value": "value"
+      }
+    },
+    "gameStats": {
+      "name": "Game States"
+    }
   }
 }

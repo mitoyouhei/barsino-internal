@@ -3,6 +3,7 @@ import {useAppSelector} from "../../../hooks";
 import {selectCasino, selectChain} from "../../../store/slices/chain";
 import {selectUser} from "../../../store/slices/user";
 import {connectWallet} from "../../../utils/wallet";
+import {useTranslation} from "react-i18next";
 
 const LOTTERY_DEFAULT_STATE = {balance: 0, records: []};
 
@@ -12,6 +13,7 @@ const Finance = React.memo(() => {
   const chain = useAppSelector(selectChain);
   // @ts-ignore
   const currency = useMemo(() => chain.info.nativeCurrency.symbol, [chain]);
+  const { t } = useTranslation();
 
   const [data, setData] = useState(LOTTERY_DEFAULT_STATE);
   const [deposit, setDeposit] = useState(0);
@@ -88,7 +90,7 @@ const Finance = React.memo(() => {
                           className="btn btn-primary w-100" type="button" id="button-addon2"
                           onClick={onWithdrawBalance}
                         >
-                          Withdraw
+                          {t("category.finance.withdraw")}
                         </button>
                       </div>
                     </div>
@@ -112,7 +114,7 @@ const Finance = React.memo(() => {
                           className="btn btn-primary w-100" type="button" id="button-addon2"
                           onClick={onDeposit}
                         >
-                          Deposit
+                          {t("category.finance.deposit")}
                         </button>
                       </div>
                     </div>
@@ -122,15 +124,17 @@ const Finance = React.memo(() => {
             </div>
           </div>
 
-          <h2 className="pt-4">Detail</h2>
+          <h2 className="pt-4">
+            {t("category.finance.detail.title")}
+          </h2>
           <table className="table table-striped">
             <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">from</th>
-              <th scope="col">to</th>
-              <th scope="col">type</th>
-              <th scope="col">value</th>
+              <th scope="col">{t("category.finance.detail.from")}</th>
+              <th scope="col">{t("category.finance.detail.to")}</th>
+              <th scope="col">{t("category.finance.detail.type")}</th>
+              <th scope="col">{t("category.finance.detail.value")}</th>
             </tr>
             </thead>
             <tbody>

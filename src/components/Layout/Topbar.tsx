@@ -67,7 +67,9 @@ export function Topbar() {
               to={`/play/${CategoryType[CategoryType.finance]}`}
             >
               <CategoryIcon category={CategoryType.finance} />
-              <span className="ms-1">资金</span>
+              <span className="ms-1">
+                {t("category.finance.name")}
+              </span>
             </Link>
             <Link
               className={`nav-link ${
@@ -76,7 +78,9 @@ export function Topbar() {
               to={`/play/${CategoryType[CategoryType.gameStats]}`}
             >
               <CategoryIcon category={CategoryType.gameStats} />
-              <span className="ms-1">游戏统计</span>
+              <span className="ms-1">
+                {t("category.gameStats.name")}
+              </span>
             </Link>
           </div>
         </div>
