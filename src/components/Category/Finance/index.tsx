@@ -68,32 +68,30 @@ const Finance = React.memo(() => {
   }, [casino, user]);
 
   return (
-    <div className="row">
-      <div className="col">
-        <div className="col-8 offset-2">
-          <div className="card shadow">
-            <div className="card-body p-0">
-              <div className="row">
-                <div className="col-6 border-end ">
-                  <Withdraw
-                    text={t("category.finance.withdraw")}
-                    onWithdrawBalance={onWithdrawBalance}
-                    value={data.balance}
-                  />
-                </div>
-                <div className="col-6">
-                  <Deposit
-                    text={t("category.finance.deposit")}
-                    onDeposit={onDeposit}
-                  />
-                </div>
+    <>
+      <div className="offset-2">
+        <div className="card shadow">
+          <div className="card-body p-0">
+            <div className="row">
+              <div className="col-6 border-end ">
+                <Withdraw
+                  text={t("category.finance.withdraw")}
+                  onWithdrawBalance={onWithdrawBalance}
+                  value={data.balance}
+                />
+              </div>
+              <div className="col-6">
+                <Deposit
+                  text={t("category.finance.deposit")}
+                  onDeposit={onDeposit}
+                />
               </div>
             </div>
           </div>
         </div>
-        <DetailTable data={data.records}/>
       </div>
-    </div>
+      <DetailTable data={data.records}/>
+    </>
   )
 })
 export default Finance;

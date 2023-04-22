@@ -1,8 +1,9 @@
 import {ethers, utils} from "ethers";
 import {ChainConfig, chains} from "./chains";
 import {Casino as CasinoContract, Casino__factory} from "./contracts";
-import {DisplayInfoStructOutput} from "./contracts/Casino";
-import {IBankrollRecord} from "../types";
+import {DisplayInfoStructOutput, GamblerStructOutput} from "./contracts/Casino";
+import {GameStatsItem, IBankrollRecord} from "../types";
+import {formatEther} from "@ethersproject/units/src.ts";
 
 const { ethereum } = window;
 
@@ -127,6 +128,19 @@ export const formatGame = (rawChainGame: DisplayInfoStructOutput): Game => {
   return game;
 };
 
+const isEqual = (a: string, b: string) => a.toLowerCase() === b.toLowerCase();
+const winnerIsHost = (game: DisplayInfoStructOutput) => {
+  const winner = game.gamblers.find((gambler => gambler.isWinner));
+  return isEqual(winner!.id, '0x0000000000000000000000000000000000000000');
+};
+
+const isFinishedGame = (game: DisplayInfoStructOutput) => !game.isActive;
+const convertGameStatsItem = (game: DisplayInfoStructOutput): GameStatsItem => ({
+  id: game.id,
+  gameType: game.gameType.toString(),
+  wager: utils.formatEther(game.wager)
+});
+
 class Casino {
   private chainId: number;
   private chainConfig: ChainConfig;
@@ -217,6 +231,26 @@ class Casino {
   async bankrollDeposit(amount: string){
     const value = utils.parseEther(amount);
     return await this.signedContract.bankrollDeposit({value});
+  }
+
+  async getGames(): Promise<{ winGames: GameStatsItem[], loseGames: GameStatsItem[] }> {
+    const games = await this.contract.getGames();
+    let winGames: GameStatsItem[] = [];
+    let loseGames: GameStatsItem[] = [];
+
+    games
+      .filter(isFinishedGame)
+      .forEach((game) => {
+        if (winnerIsHost(game)) {
+          console.log('convertGameStatsItem(game)', convertGameStatsItem(game));
+          winGames.push(convertGameStatsItem(game));
+        } else {
+          loseGames.push(convertGameStatsItem(game));
+        }
+      })
+    return {
+      winGames, loseGames
+    }
   }
 }
 

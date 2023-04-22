@@ -20,7 +20,7 @@ export const router = createBrowserRouter([
         element: <Finance />,
       },
       {
-        path: "/play/games",
+        path: "/play/gameStats",
         element: <GameStats />,
       },
     ],

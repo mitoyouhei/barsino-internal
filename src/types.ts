@@ -9,3 +9,9 @@ export interface IBankrollRecord {
   value: string;
   type: string;
 }
+
+export interface GameStatsItem {
+  id: string,
+  wager: string,
+  gameType: string,
+}
