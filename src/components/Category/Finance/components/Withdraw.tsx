@@ -1,6 +1,5 @@
-import React, {useMemo} from "react";
-import {useAppSelector} from "../../../../hooks";
-import {selectChain} from "../../../../store/slices/chain";
+import React from "react";
+import {useCurrency} from "../../../../hooks/useCurrency";
 
 interface IWithdraw {
   text: string;
@@ -10,10 +9,7 @@ interface IWithdraw {
 
 export const Withdraw = React.memo((props: IWithdraw) => {
   const {text, onWithdrawBalance, value} = props;
-  const chain = useAppSelector(selectChain);
-  // @ts-ignore
-  const currency = useMemo(() => chain.info.nativeCurrency.symbol, [chain]);
-
+  const currency = useCurrency();
   return (
     <div className="p-3">
       <label>{currency}</label>

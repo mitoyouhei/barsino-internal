@@ -1,6 +1,5 @@
-import React, {useCallback, useMemo, useState} from "react";
-import {useAppSelector} from "../../../../hooks";
-import {selectChain} from "../../../../store/slices/chain";
+import React, {useCallback, useState} from "react";
+import {useCurrency} from "../../../../hooks/useCurrency";
 
 interface IDeposit {
   text: string;
@@ -9,9 +8,7 @@ interface IDeposit {
 
 export const Deposit = React.memo((props: IDeposit) => {
   const {text, onDeposit} = props;
-  const chain = useAppSelector(selectChain);
-  // @ts-ignore
-  const currency = useMemo(() => chain.info.nativeCurrency.symbol, [chain]);
+  const currency = useCurrency();
   const [deposit, setDeposit] = useState(0);
 
   const onInputChange = useCallback((e: any) => {
