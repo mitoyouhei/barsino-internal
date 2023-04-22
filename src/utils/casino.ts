@@ -1,9 +1,8 @@
 import {ethers, utils} from "ethers";
 import {ChainConfig, chains} from "./chains";
 import {Casino as CasinoContract, Casino__factory} from "./contracts";
-import {DisplayInfoStructOutput, GamblerStructOutput} from "./contracts/Casino";
+import {DisplayInfoStructOutput} from "./contracts/Casino";
 import {GameStatsItem, IBankrollRecord} from "../types";
-import {formatEther} from "@ethersproject/units/src.ts";
 
 const { ethereum } = window;
 
@@ -242,7 +241,6 @@ class Casino {
       .filter(isFinishedGame)
       .forEach((game) => {
         if (winnerIsHost(game)) {
-          console.log('convertGameStatsItem(game)', convertGameStatsItem(game));
           winGames.push(convertGameStatsItem(game));
         } else {
           loseGames.push(convertGameStatsItem(game));

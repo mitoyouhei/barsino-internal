@@ -15,3 +15,8 @@ export interface GameStatsItem {
   wager: string,
   gameType: string,
 }
+
+export enum GameTypeFromAPI {
+  dice = 1,
+  rps = 2,
+}
