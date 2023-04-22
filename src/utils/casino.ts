@@ -2,6 +2,7 @@ import {ethers, utils} from "ethers";
 import {ChainConfig, chains} from "./chains";
 import {Casino as CasinoContract, Casino__factory} from "./contracts";
 import {DisplayInfoStructOutput} from "./contracts/Casino";
+import {IBankrollRecord} from "../types";
 
 const { ethereum } = window;
 
@@ -192,12 +193,12 @@ class Casino {
     throw new Error("Create game event not found");
   }
 
-  async bankrollGetBalance() {
+  async bankrollGetBalance(): Promise<string> {
     const result = await this.signedContract.bankrollGetBalance();
     return utils.formatEther(result);
   }
 
-  async bankrollTransactionRecords() {
+  async bankrollTransactionRecords(): Promise<IBankrollRecord[]> {
     const records = await this.signedContract.bankrollGetTransactionRecords();
     const result = records.map((record: { from: any; to: any; recordType: { toString: () => any; }; value: { toString: () => any; }; }) => {
       return {
